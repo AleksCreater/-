@@ -7,7 +7,7 @@ transport_rental = {}
 electric_scooter = ['KUGOO X1', 'Xiaomi M365 Electric Scooter Pro', 'Xiaomi Mi Electric Scooter 1S', 'Ninebot KickScooter' 'F25 Halten Flash']
 bike = ['Adriatica' , 'AGang', 'Alpine Bike' ,'Altair' ,'Aspect']
 tenant_name = input("Введите ФИО арендатора :")
-choise = int(input("Выберите транспорт, который требуется сдать в аренду, введите 1 или 2: "))
+choise = int(input("Выберите транспорт, который требуется сдать в аренду, введите 1(скутеры) или 2(велосипеды): "))
 if choise == 1:
     print(" В наличии доступны скутеры :", '\n' , electric_scooter, '\n')
     choise_model = int(input("Укажите модель, которую выбрал арендатор : "))
@@ -60,6 +60,23 @@ print("Введите время, на которое взяли транспо�
 local_time = float(input())
 local_time = local_time * 60
 print(f"{transport_rental} взял на",  local_time, "секунд")
+time.sleep(3)
+print('Отправляю запрос на разблокировку транспорта')
+with open('request_for_transport_unlocking.txt','w+')as file:
+    file.write('request for transport unlocking')
+
+time.sleep(3)
+def unblocking_transport():
+    try:
+        file = open('answer_unblocking_transport.txt')
+        content = file.read()
+        print(content)
+        file.close()
+        os.remove('answer_unblocking_transport.txt')
+    except FileNotFoundError:
+        print("Ответный Файл не найден, ожидаю")
+
+unblocking_transport()
 
 time.sleep(local_time)
 print(time_out)
@@ -72,18 +89,20 @@ else:
     print(transport_block)
     time.sleep(3)
     print("Запрос отправлен, ожидаю ответ от устройства")
-    with open('query_transport_locally.txt', 'w') as file:
+    with open('request_for_transport_location.txt', 'w+') as file:
         file.write('location of transport')
     time.sleep(3)
     #Имитация работы документооборота с транспортом. Имитация прочтения запроса сервером и его удаления
-    os.remove('query_transport_locally.txt')
     print("Ожидние ответа")
     #Имитация документооборота получения ответа от транспорта. Получение файла
     time.sleep(3)
-    file =  open('reply_transport_locally.txt', 'w')
-    file.write('Ekaterinburg, Tatichewa, 24')
+    file =  open('answer_for_ransport_location.txt')
+    content = file.read()
+    print("Ответ получен", content," транспорт остановлен и заблокирован")
     file.close()
-    print("Ответ получен", file.read()," транспорт остановлен и заблокирован")
+    os.remove('answer_for_ransport_location.txt')
+
+input()
 
 
             
