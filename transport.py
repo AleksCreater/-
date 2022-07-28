@@ -36,8 +36,11 @@ while requests == True:
             current_model = electric_scooter.pop(4)
             transport_rental[tenant_name] = current_model
             print(f"{tenant_name} выбрал скутер", current_model)
-        
     else:
+        print("Введено некорректное значение")
+        break
+        
+    if choise == 2:
         print("В наличии доступны велосипеды: ", '\n', bike,'\n')
         choise_model = int(input("Укажите модель, которую выбрал арендатор : "))
         if choise_model == 1:
@@ -60,6 +63,9 @@ while requests == True:
             current_model = bike.pop(4)
             transport_rental[tenant_name] = current_model
             print(f"{tenant_name} выбрал велосипед", current_model)
+        else:
+            print("Введено некорректное значение")
+            break
 
     print("Введите время, на которое взяли транспорт : ")
     local_time = float(input())
@@ -87,25 +93,23 @@ while requests == True:
             time.sleep(30)
     except FileNotFoundError:
         print("Проверьте связь с транспортом")
-time.sleep(local_time)
-print(time_out)
+    time.sleep(local_time)
+    print(time_out)
 
-over_time = input("Требуется продление аренды? y/n ")
-if over_time == 'y':
-    print("Введите время в минутах , на которое был взят транспорт в аренду")
-    local_time = float(input())
-    print(f"{transport_rental} взял на",  local_time, "секунд")
-else:
-    print(transport_block)
-    time.sleep(3)
-    print("Запрос отправлен, ожидаю ответ от устройства")
-    with open('request_for_transport_location.txt', 'w+') as file:
-        file.write('location of transport')
-    time.sleep(3)
-    #Имитация работы документооборота с транспортом. Имитация прочтения запроса сервером и его удаления
-    print("Ожидние ответа")
-    #Имитация документооборота получения ответа от транспорта. Получение файла
-    time.sleep(3)
+    over_time = input("Требуется продление аренды? y/n ")
+    if over_time == 'y':
+        print("Введите время в минутах , на которое был взят транспорт в аренду")
+        local_time = float(input())
+        print(f"{transport_rental} взял на",  local_time, "секунд")
+    else:
+        print(transport_block)
+        time.sleep(3)
+        print("Запрос отправлен, ожидаю ответ от устройства")
+        with open('request_for_transport_location.txt', 'w+') as file:
+            file.write('location of transport')
+        time.sleep(3)
+        print("Ожидние ответа")
+        time.sleep(3)
     file =  open('answer_for_ransport_location.txt')
     content = file.read()
     print("Ответ получен", content," транспорт остановлен и заблокирован")
